@@ -19,13 +19,9 @@ func NewUser(u users.Service) *User {
 
 func (u *User) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		user, err := u.userService.GetAll(ctx)
-		if err != nil {
+		user := u.userService.GetOne(ctx)
 
-			ctx.JSON(http.StatusNotFound, nil)
-			return
-		} else {
-			ctx.JSON(http.StatusOK, user)
-		}
+		ctx.JSON(http.StatusOK, user)
+
 	}
 }

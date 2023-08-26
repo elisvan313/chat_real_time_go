@@ -2,13 +2,14 @@ package main
 
 import (
 	"chat_real_time_go/src/api/v1/routes"
-	"database/sql"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 	}
 
 	url, err := pq.ParseURL(os.Getenv("DB_URL"))
-	db, err := sql.Open("postgres", url)
+	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 
 	if err != nil {
 		panic(err)

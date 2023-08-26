@@ -1,13 +1,12 @@
 package routes
 
 import (
-	"chat_real_time_go/internal/contacts"
 	"chat_real_time_go/internal/users"
 	"chat_real_time_go/src/api/v1/handler"
-	"database/sql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type Router interface {
@@ -17,10 +16,10 @@ type Router interface {
 type router struct {
 	eng *gin.Engine
 	rg  *gin.RouterGroup
-	db  *sql.DB
+	db  *gorm.DB
 }
 
-func NewRouter(eng *gin.Engine, db *sql.DB) Router {
+func NewRouter(eng *gin.Engine, db *gorm.DB) Router {
 	return &router{eng: eng, db: db}
 }
 
@@ -31,7 +30,6 @@ func (r *router) MapRoutes() {
 	})
 	r.websockets()
 	r.users()
-	r.contact()
 }
 
 func (r *router) setGroup() {
@@ -51,11 +49,4 @@ func (r *router) users() {
 	service := users.NewService(repo)
 	handler := handler.NewUser(service)
 	group.GET("/users", handler.GetAll())
-}
-func (r *router) contact() {
-	group := r.rg.Group("/contact")
-	repo := contacts.NewRepository(r.db)
-	service := contacts.NewService(repo)
-	handler := handler.NewContact(service)
-	group.GET("/contacts", handler.GetAll())
 }
