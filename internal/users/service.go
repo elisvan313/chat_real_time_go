@@ -7,7 +7,7 @@ import (
 )
 
 type Service interface {
-	GetAll(c *gin.Context) ([]domain.User, error)
+	GetOne(c *gin.Context) domain.User
 }
 
 type service struct{ repository Repository }
@@ -18,6 +18,6 @@ func NewService(repository Repository) Service {
 	}
 }
 
-func (s *service) GetAll(c *gin.Context) ([]domain.User, error) {
-	return s.repository.GetAll(c)
+func (s *service) GetOne(c *gin.Context) domain.User {
+	return s.repository.GetOne(c)
 }
