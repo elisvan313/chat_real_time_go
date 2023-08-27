@@ -2,6 +2,7 @@ package handler
 
 import (
 	"chat_real_time_go/internal/users"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,8 +21,13 @@ func NewUser(u users.Service) *User {
 func (u *User) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		user := u.userService.GetOne(ctx)
-
 		ctx.JSON(http.StatusOK, user)
+	}
+}
 
+func (u *User) CreateUser() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		user := u.userService.CreateUser(ctx)
+		ctx.JSON(http.StatusOK, user)
 	}
 }

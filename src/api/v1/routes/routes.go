@@ -30,6 +30,7 @@ func (r *router) MapRoutes() {
 	})
 	r.websockets()
 	r.users()
+	r.CreateUser()
 }
 
 func (r *router) setGroup() {
@@ -49,4 +50,12 @@ func (r *router) users() {
 	service := users.NewService(repo)
 	handler := handler.NewUser(service)
 	group.GET("/users", handler.GetAll())
+}
+
+func (r *router) CreateUser() {
+	group := r.rg.Group("/users")
+	repo := users.NewRepository(r.db)
+	service := users.NewService(repo)
+	handler := handler.NewUser(service)
+	group.POST("/create", handler.CreateUser())
 }

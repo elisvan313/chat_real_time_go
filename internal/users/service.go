@@ -8,6 +8,7 @@ import (
 
 type Service interface {
 	GetOne(c *gin.Context) domain.User
+	CreateUser(c *gin.Context) domain.User
 }
 
 type service struct{ repository Repository }
@@ -20,4 +21,8 @@ func NewService(repository Repository) Service {
 
 func (s *service) GetOne(c *gin.Context) domain.User {
 	return s.repository.GetOne(c)
+}
+
+func (s *service) CreateUser(c *gin.Context) domain.User {
+	return s.repository.CreateUser(c)
 }
